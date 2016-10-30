@@ -44,3 +44,7 @@ TODO
 # TODO
 ・redisのzabbixエージェント設定を自動化、またはイメージ配布
 ・memcachedのry
+
+
+# 参考
+https://github.com/rdvn/zabbix-templates
