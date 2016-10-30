@@ -1,0 +1,41 @@
+redis:
+  build: redis
+  dockerfile: Dockerfile-redis
+  links:
+   - zabbix-server:zabbix_server
+rabbitmq:
+  build: rabbitmq
+  dockerfile: Dockerfile-rabbitmq 
+  links:
+   - zabbix-server:zabbix_server
+  ports:
+   - "4369:4369"
+   - "5671:5671"
+   - "5672:5672"
+   - "15672:15672"
+   - "25672:25672"
+  environment:
+   - RABBITMQ_DEFAULT_USER=user
+   - RABBITMQ_DEFAULT_PASS=password
+zabbix-db:
+  image: monitoringartist/zabbix-db-mariadb
+  volumes:
+    - zabbix-db-storage:/var/lib/mysql
+    - backups:/backups
+    - /etc/localtime:/etc/localtime:ro
+  environment:
+    - MARIADB_USER=zabbix
+    - MARIADB_PASS=my_password
+zabbix-server:
+  image: monitoringartist/zabbix-xxl:latest
+  ports:
+    - "80:80"
+    - "10051:10051"
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+  links:
+    - zabbix-db:zabbix.db
+  environment:
+    - ZS_DBHost=zabbix.db
+    - ZS_DBUser=zabbix
+    - ZS_DBPassword=my_password
