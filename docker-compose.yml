@@ -1,25 +1,22 @@
 redis:
   build: redis
-  dockerfile: Dockerfile-redis
   links:
    - zabbix-server:zabbix_server
-#rabbitmq:
-#  build: rabbitmq
-#  dockerfile: Dockerfile-rabbitmq 
-#  links:
-#   - zabbix-server:zabbix_server
-#  ports:
-#   - "4369:4369"
-#   - "5671:5671"
-#   - "5672:5672"
-#   - "15672:15672"
-#   - "25672:25672"
-#  environment:
-#   - RABBITMQ_DEFAULT_USER=user
-#   - RABBITMQ_DEFAULT_PASS=password
+rabbitmq:
+  build: rabbitmq
+  links:
+   - zabbix-server:zabbix_server
+  ports:
+   - "4369:4369"
+   - "5671:5671"
+   - "5672:5672"
+   - "15672:15672"
+   - "25672:25672"
+  environment:
+   - RABBITMQ_DEFAULT_USER=user
+   - RABBITMQ_DEFAULT_PASS=password
 memcached:
   build: memcached
-  dockerfile: Dockerfile-memcached
   links:
    - zabbix-server:zabbix_server
   ports:
